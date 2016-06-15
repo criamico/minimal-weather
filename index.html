@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="weatherApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Weather App </title>
+
+
+   <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" > -->
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/weather-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="css/weather-icons-wind.min.css">
+
+
+  </head>
+  <body >
+
+    <!-- Container -->
+    <main ng-controller="weatherController">
+       <div class="container">
+           <div class="current">
+               <span id="place">{{place.display}}</span>
+               <span><button name="toggle" ng-click="toggleUnits()"> {{isCelsius && "°F" || "°C"}}   </button> </span>
+              <!--  <h1> Your current weather </h1> -->
+
+               <h1 class="main">
+                   <p class="main-icon"><i class="wi" ng-class="getWeatherIcon(weatherdata.forecast.tabular.time[0].symbol.number)"></i></p>
+                   <span class="main-temp">{{isCelsius && weatherdata.forecast.tabular.time[0].temperature.value || weatherdata.forecast.tabular.time[0].temperature.farhenheit}} {{isCelsius && "°C" || "°F"}} ~ </span>
+                   <span class="main-press">{{weatherdata.forecast.tabular.time[0].pressure.value}} {{weatherdata.forecast.tabular.time[0].pressure.unit}}</span>
+
+                   <p class="main-icon"> <i class="wi wi-wind" ng-class="getWindIcon(weatherdata.forecast.tabular.time[0].windDirection.code)"></i></p>
+                    <span>{{weatherdata.forecast.tabular.time[0].windDirection.name}}</span>
+                    <span>{{weatherdata.forecast.tabular.time[0].windSpeed.mps}} m/s</span>
+                </h1>
+            </div> <!-- current -->
+
+        <div class="forecast">
+           <h3>Next 36 hours:</h3>
+
+            <ul>
+                <li ng-repeat="period in overcast">
+                <p class="row-1"> {{filterDate(period.from)[0]}} {{filterDate(period.from)[1]}} </p>
+                 <p class="row-2">
+                 <i class="wi" ng-class="getWeatherIcon(period.symbol.number)"></i>
+                    <span>{{isCelsius && period.temperature.value || period.temperature.farhenheit }} {{isCelsius && "°C" || "°F"}} ~ </span>
+                    <span>{{period.pressure.value}} {{period.pressure.unit}}</span>
+                </p>
+                  <!--   <span>Precipitation: {{period.precipitation["_value"]}} mm</span> -->
+
+                <p class="row-3">
+                    <i class="wi wi-wind" ng-class="getWindIcon(period.windDirection.code)"></i>
+                    <span>{{period.windDirection.name}}</span>
+                    <span>{{period.windSpeed.mps}} m/s</span>
+                </p>
+                </li>
+
+            </ul>
+        </div>
+
+       <!--  <a href="{{weatherdata.links.link[2]['_url']}}">See {{weatherdata.links.link[2]['_id']}} on yr.no</a> -->
+
+        </div><!-- container -->
+
+         <footer>
+           <p class="credits"><a href="{{ weatherdata.credit.link['url']}}">{{ weatherdata.credit.link["text"]}}</a> </p>
+           <p class="author">Created by <a href="https://github.com/criamico">criamico</a> - 2016</p>
+       </footer>
+    </main>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+
+ <!--    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-sanitize.js"></script> -->
+   <!--  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.js"></script> -->
+
+    <script src="app/weatherApp.js"></script>
+  </body>
+</html>

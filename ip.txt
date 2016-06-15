@@ -1,0 +1,6 @@
+italian ip address to test location
+93.63.142.144 campania
+92.223.253.161 lombardia
+93.51.247.104 milano
+46.231.117.154 just returns the country
+37.186.201.151 verona
