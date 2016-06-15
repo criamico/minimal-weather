@@ -86,7 +86,7 @@
         $scope.getIpInfo = function(){
             $http({
                 method: 'GET',
-                url: 'http://ipinfo.io/93.51.247.104',
+                url: 'http://ipinfo.io/',
                 datatype: 'json'
             })
             .then(function(Ipdata, status, headers, config){
