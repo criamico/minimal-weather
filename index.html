@@ -20,11 +20,15 @@
 
     <!-- Container -->
     <main ng-controller="weatherController">
-       <div class="container">
+        <section class="error-msg" ng-hide="knowLocation">
+            <p>Sorry, it was not possible to retrieve your location.</p>
+
+        </section> <!-- error-msg -->
+
+       <section class="img-container" ng-style= "{'background-image': getBg(weatherdata.forecast.tabular.time[0].symbol.number)}" ng-show= "knowLocation">
            <div class="current">
                <span id="place">{{place.display}}</span>
                <span><button name="toggle" ng-click="toggleUnits()"> {{isCelsius && "°F" || "°C"}}   </button> </span>
-              <!--  <h1> Your current weather </h1> -->
 
                <h1 class="main">
                    <p class="main-icon"><i class="wi" ng-class="getWeatherIcon(weatherdata.forecast.tabular.time[0].symbol.number)"></i></p>
@@ -36,29 +40,31 @@
                     <span>{{weatherdata.forecast.tabular.time[0].windSpeed.mps}} m/s</span>
                 </h1>
             </div> <!-- current -->
+        </section>
 
-        <div class="forecast">
-           <h3>Next 36 hours:</h3>
+        <div class="container" ng-show= "knowLocation">
+            <div class="forecast">
+               <h3>Next 36 hours:</h3>
 
-            <ul>
-                <li ng-repeat="period in overcast">
-                <p class="row-1"> {{filterDate(period.from)[0]}} {{filterDate(period.from)[1]}} </p>
-                 <p class="row-2">
-                 <i class="wi" ng-class="getWeatherIcon(period.symbol.number)"></i>
-                    <span>{{isCelsius && period.temperature.value || period.temperature.farhenheit }} {{isCelsius && "°C" || "°F"}} ~ </span>
-                    <span>{{period.pressure.value}} {{period.pressure.unit}}</span>
-                </p>
-                  <!--   <span>Precipitation: {{period.precipitation["_value"]}} mm</span> -->
+                <ul>
+                    <li ng-repeat="period in overcast">
+                    <p class="row-1"> {{filterDate(period.from)[0]}} {{filterDate(period.from)[1]}} </p>
+                     <p class="row-2">
+                     <i class="wi" ng-class="getWeatherIcon(period.symbol.number)"></i>
+                        <span>{{isCelsius && period.temperature.value || period.temperature.farhenheit }} {{isCelsius && "°C" || "°F"}} ~ </span>
+                        <span>{{period.pressure.value}} {{period.pressure.unit}}</span>
+                    </p>
+                      <!--   <span>Precipitation: {{period.precipitation["_value"]}} mm</span> -->
 
-                <p class="row-3">
-                    <i class="wi wi-wind" ng-class="getWindIcon(period.windDirection.code)"></i>
-                    <span>{{period.windDirection.name}}</span>
-                    <span>{{period.windSpeed.mps}} m/s</span>
-                </p>
-                </li>
+                    <p class="row-3">
+                        <i class="wi wi-wind" ng-class="getWindIcon(period.windDirection.code)"></i>
+                        <span>{{period.windDirection.name}}</span>
+                        <span>{{period.windSpeed.mps}} m/s</span>
+                    </p>
+                    </li>
 
-            </ul>
-        </div>
+                </ul>
+            </div>
 
        <!--  <a href="{{weatherdata.links.link[2]['_url']}}">See {{weatherdata.links.link[2]['_id']}} on yr.no</a> -->
 

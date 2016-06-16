@@ -12,6 +12,7 @@
         $scope.place.region = '';
         $scope.place.city = '';
         $scope.place.display = '';
+        $scope.knowLocation = false;
 
 
 
@@ -104,11 +105,13 @@
 
                 $scope.place.display = $scope.place.country + '>' + $scope.place.region + '>' + $scope.place.city;
 
-                if($scope.place.country !== '' && $scope.place.region !== '' && $scope.place.city !== '')
+                if($scope.place.country !== '' && $scope.place.region !== '' && $scope.place.city !== ''){
                 // now get the weather data
+                    $scope.knowLocation = true;
                     $scope.getWeatherData();
-                // else display an error message!
-
+                }
+               /* else
+                    $scope.knowLocation = false;*/
 
                 }, function(Ipdata, status, headers, config){
                        console.log("Retrieving ip info was not successful");
@@ -123,7 +126,7 @@
                 "2": "wi-day-sunny", //2 fair
                 "3": "wi-day-cloudy", //3 partly cloudy
                 "4": "wi-cloudy", //4 cloudy
-                "5": "wi-day-showers", //5 rain showers
+                "5": "wi-showers", //5 rain showers
                 "6": "wi-thunderstorm", //Heavy rain showers and thunder
 
                 "8": "wi-day-sleet", //8 Light snow showers
@@ -132,11 +135,48 @@
                 "13": "wi-snow", //13 snow, light snow
                 "22": "wi-thunderstorm" //Rain and thunder
             }
+
             if (symbol.hasOwnProperty(strNo))
                 return symbol[strNo];
             return '';
 
         };
+
+         $scope.getBg = function(strNo){
+            var bgImg = '';
+            switch(strNo){
+                case "1":
+                case "2":
+                    bgImg =  '/img/air-2716_1280.jpg';
+                    break;
+                case "3":
+                case "4":
+                    bgImg = 'img/Cloudy_sky.jpg';
+                    break;
+                case "6":
+                case "22":
+                     bgImg = 'img/lightning-199651_1920.jpg';
+                     break;
+                case "5":
+                case "9":
+                case "10":
+                     bgImg = 'img/rain-980076_1280.jpg';
+                     break;
+                case "13":
+                    bgImg = 'img/frozen-201495_1920.jpg';
+                    break;
+
+
+            }
+
+            return 'url(' + bgImg +')';
+        }
+
+
+
+
+
+
         // get wind direction icon
         $scope.getWindIcon = function(code){
             var windCode = {
@@ -161,7 +201,6 @@
                 return windCode[code];
             return '';
         }
-
 
 
 
