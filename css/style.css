@@ -19,14 +19,16 @@ h1, h2{
 }
 
 h1{
-    font-size: 1.7em;
+    margin: 15px auto;
+    font-size: 1.9em;
 }
 h2{
     /* font-size: 2.3em; */
 }
 h3{
-    color: #454040;
+    color: #B22E05; /* #454040; */
     font-weight: 300;
+    font-size: 1.6em;
 }
 
 .error-msg{
@@ -38,33 +40,36 @@ h3{
 
 #place{
     color: white;
+    margin-right: 1.3em;
 
 }
 
 .main-icon{
     font-size: 2.5em;
-    margin: 10px auto;
+    margin: 20px auto;
 }
 .current{
-    /* width: 50%; */
     display: inline-block;
-    margin: 40px auto;
-    padding: 20px;
+    margin: 20px auto;
+    padding: 2em;
     border-radius: 5px;
     background: rgba(37, 40, 40, 0.7);
-
 }
+
+
+
 
 button {
     outline: none;
     border: none;
     background-color: #009688;
     color: white;
-    padding: 2px 10px;
+    padding: 5px 14px;
     border-radius: 3px;
+    float: right;
 }
 
-}
+
 
 .main>i{
     font-size: 3em;
@@ -93,9 +98,13 @@ li{
     color: #FF5722;
 }
 
-.row-2>i, .row-3>i{
+.row-2>i{
     font-size: 1.6em;
 
+}
+
+.row-2{
+    font-size: 1.3em;
 }
 
 footer{
@@ -145,14 +154,20 @@ a{
     li{
         list-style: none;
         background: rgba(255, 255, 255, 0.76);
-        width: 90%;
+        width: 75%;
         margin: 25px auto;
         border-radius: 5px;
-        padding: 5px;
+        /* padding: 0.6em; */
     }
 
     .row-2>i, .row-3>i{
         font-size: 1.6em;
+
+    }
+
+      #li-icon{
+        font-size: 2.8em;
+        padding-top:0.6em;
 
     }
 
@@ -197,8 +212,13 @@ a{
         height: 250px;
         border-radius: 50%;
     }
+
+    #li-icon{
+        font-size: 2.8em;
+         padding-top: 12%;
+    }
     .row-1{
-        padding-top: 22%;
+        /* padding-top: 22%; */
     }
 
 }
@@ -223,7 +243,11 @@ a{
         border-radius: 50%;
     }
     .row-1{
-        padding-top: 22%;
+        /* padding-top: 22%; */
+    }
+    #li-icon{
+        font-size: 2.8em;
+         padding-top: 12%;
     }
 
 

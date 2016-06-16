@@ -12,7 +12,7 @@
         $scope.place.region = '';
         $scope.place.city = '';
         $scope.place.display = '';
-        $scope.knowLocation = false;
+        $scope.knowLocation = true;
 
 
 
@@ -110,8 +110,8 @@
                     $scope.knowLocation = true;
                     $scope.getWeatherData();
                 }
-               /* else
-                    $scope.knowLocation = false;*/
+                else
+                    $scope.knowLocation = false;
 
                 }, function(Ipdata, status, headers, config){
                        console.log("Retrieving ip info was not successful");
@@ -133,6 +133,7 @@
                 "9": "wi-rain", //9 rain
                 "10": "wi-rain", //10 heavy rain
                 "13": "wi-snow", //13 snow, light snow
+                "15": "wi-day-fog", //15 fog
                 "22": "wi-thunderstorm" //Rain and thunder
             }
 
@@ -164,6 +165,9 @@
                      break;
                 case "13":
                     bgImg = 'img/frozen-201495_1920.jpg';
+                    break;
+                case "15":
+                    bgImg = 'landscape-trees-winter-8781.jpg';
                     break;
 
 

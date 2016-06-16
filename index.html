@@ -30,15 +30,17 @@
                <span id="place">{{place.display}}</span>
                <span><button name="toggle" ng-click="toggleUnits()"> {{isCelsius && "°F" || "°C"}}   </button> </span>
 
-               <h1 class="main">
-                   <p class="main-icon"><i class="wi" ng-class="getWeatherIcon(weatherdata.forecast.tabular.time[0].symbol.number)"></i></p>
-                   <span class="main-temp">{{isCelsius && weatherdata.forecast.tabular.time[0].temperature.value || weatherdata.forecast.tabular.time[0].temperature.farhenheit}} {{isCelsius && "°C" || "°F"}} ~ </span>
-                   <span class="main-press">{{weatherdata.forecast.tabular.time[0].pressure.value}} {{weatherdata.forecast.tabular.time[0].pressure.unit}}</span>
+               <div class="main">
+                   <h1 class="main-icon"><i class="wi" ng-class="getWeatherIcon(weatherdata.forecast.tabular.time[0].symbol.number)"></i></h1>
+                   <h1 class="main-temp">{{isCelsius && weatherdata.forecast.tabular.time[0].temperature.value || weatherdata.forecast.tabular.time[0].temperature.farhenheit}} {{isCelsius && "°C" || "°F"}} </h1>
+                   <h1 class="main-press">{{weatherdata.forecast.tabular.time[0].pressure.value}} {{weatherdata.forecast.tabular.time[0].pressure.unit}}</h1>
 
-                   <p class="main-icon"> <i class="wi wi-wind" ng-class="getWindIcon(weatherdata.forecast.tabular.time[0].windDirection.code)"></i></p>
-                    <span>{{weatherdata.forecast.tabular.time[0].windDirection.name}}</span>
+                   <h1 class="main-icon"> <i class="wi wi-wind" ng-class="getWindIcon(weatherdata.forecast.tabular.time[0].windDirection.code)"></i></h1>
+                   <h1>
+                    <span>{{weatherdata.forecast.tabular.time[0].windDirection.code}}</span>
                     <span>{{weatherdata.forecast.tabular.time[0].windSpeed.mps}} m/s</span>
-                </h1>
+                    </h1>
+                </div>
             </div> <!-- current -->
         </section>
 
@@ -47,18 +49,20 @@
                <h3>Next 36 hours:</h3>
 
                 <ul>
+
                     <li ng-repeat="period in overcast">
-                    <p class="row-1"> {{filterDate(period.from)[0]}} {{filterDate(period.from)[1]}} </p>
+                    <i id="li-icon" class="wi" ng-class="getWeatherIcon(period.symbol.number)"></i>
+                  <!--   <p class="row-1"> {{filterDate(period.from)[0]}} {{filterDate(period.from)[1]}} </p> -->
                      <p class="row-2">
-                     <i class="wi" ng-class="getWeatherIcon(period.symbol.number)"></i>
                         <span>{{isCelsius && period.temperature.value || period.temperature.farhenheit }} {{isCelsius && "°C" || "°F"}} ~ </span>
                         <span>{{period.pressure.value}} {{period.pressure.unit}}</span>
                     </p>
-                      <!--   <span>Precipitation: {{period.precipitation["_value"]}} mm</span> -->
+                    <p class="row-1"> {{filterDate(period.from)[0]}} {{filterDate(period.from)[1]}} </p>
+
 
                     <p class="row-3">
                         <i class="wi wi-wind" ng-class="getWindIcon(period.windDirection.code)"></i>
-                        <span>{{period.windDirection.name}}</span>
+                        <span>{{period.windDirection.code}}</span>
                         <span>{{period.windSpeed.mps}} m/s</span>
                     </p>
                     </li>
