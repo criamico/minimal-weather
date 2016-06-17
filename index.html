@@ -16,16 +16,17 @@
 
 
   </head>
-  <body >
+  <body ng-controller="weatherController" ng-style= "{'background-color': getBg(weatherdata.forecast.tabular.time[0].symbol.number)[1]}">
 
     <!-- Container -->
-    <main ng-controller="weatherController">
+    <main >
         <section class="error-msg" ng-hide="knowLocation">
             <p>Sorry, it was not possible to retrieve your location.</p>
 
         </section> <!-- error-msg -->
 
-       <section class="img-container" ng-style= "{'background-image': getBg(weatherdata.forecast.tabular.time[0].symbol.number)}" ng-show= "knowLocation">
+       <section class="img-container"  ng-show= "knowLocation" ng-style= "{'background-image': getBg(weatherdata.forecast.tabular.time[0].symbol.number)[0]}">
+
            <div class="current">
                <span id="place">{{place.display}}</span>
                <span><button name="toggle" ng-click="toggleUnits()"> {{isCelsius && "°F" || "°C"}}   </button> </span>
@@ -52,12 +53,11 @@
 
                     <li ng-repeat="period in overcast">
                     <i id="li-icon" class="wi" ng-class="getWeatherIcon(period.symbol.number)"></i>
-                  <!--   <p class="row-1"> {{filterDate(period.from)[0]}} {{filterDate(period.from)[1]}} </p> -->
                      <p class="row-2">
                         <span>{{isCelsius && period.temperature.value || period.temperature.farhenheit }} {{isCelsius && "°C" || "°F"}} ~ </span>
                         <span>{{period.pressure.value}} {{period.pressure.unit}}</span>
                     </p>
-                    <p class="row-1"> {{filterDate(period.from)[0]}} {{filterDate(period.from)[1]}} </p>
+                    <p class="row-1"> {{filterDate(period.from).date}} {{filterDate(period.from).time}} </p>
 
 
                     <p class="row-3">

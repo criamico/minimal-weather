@@ -5,7 +5,6 @@
         $scope.place = {};
         $scope.overcast = [];
         $scope.countriesList = [];
-        // $scope.forecast = [];
         $scope.isCelsius = true;
 
         $scope.place.country = '';
@@ -33,7 +32,7 @@
            console.log(URL);
             $http({
                 method: 'GET',
-                url: URL, //'https://crossorigin.me/http://www.yr.no/place/Ireland/Leinster/Dublin/forecast.xml',
+                url: URL,
             })
             .then(function(XMLdata, status, headers, config){
                 console.log(XMLdata);
@@ -80,7 +79,16 @@
 
         // Helper function; needed to split date/time obtained by weather service
         $scope.filterDate = function(str){
-            return arr = str.split("T");
+            // format: 2016-06-18T18:00:00
+            var forecastDates = {};
+
+            var arr = str.split("T");
+            var date = new Date(arr[0]);
+
+            forecastDates.time = arr[1].slice(0,5);
+            forecastDates.date = date.toDateString().slice(0,10);
+
+            return forecastDates;
         };
 
         // Get user location using ipinfo service
@@ -99,14 +107,14 @@
 
                     if (Ipdata.data.city !== '')
                         $scope.place.city = (Ipdata.data.city).replace(" ", "_");
-                    else
-                        $scope.place.city = ($scope.getCountryName(Ipdata.data.country).capital).replace(" ", "_");
+                   /* else
+                        $scope.place.city = ($scope.getCountryName(Ipdata.data.country).capital).replace(" ", "_");*/
                 }
 
-                $scope.place.display = $scope.place.country + '>' + $scope.place.region + '>' + $scope.place.city;
+                $scope.place.display = $scope.place.country + ' > ' + $scope.place.region + ' > ' + $scope.place.city;
 
                 if($scope.place.country !== '' && $scope.place.region !== '' && $scope.place.city !== ''){
-                // now get the weather data
+                // get the weather data
                     $scope.knowLocation = true;
                     $scope.getWeatherData();
                 }
@@ -145,35 +153,42 @@
 
          $scope.getBg = function(strNo){
             var bgImg = '';
+            var bgColor = '';
             switch(strNo){
                 case "1":
                 case "2":
                     bgImg =  '/img/air-2716_1280.jpg';
+                    bgColor = '#C8E0FA'
                     break;
                 case "3":
                 case "4":
                     bgImg = 'img/Cloudy_sky.jpg';
+                    bgColor = '#DCDDDE';
                     break;
                 case "6":
                 case "22":
                      bgImg = 'img/lightning-199651_1920.jpg';
+                     bgColor = '#839FCE';
                      break;
                 case "5":
                 case "9":
                 case "10":
                      bgImg = 'img/rain-980076_1280.jpg';
+                     bgColor = '#A3C2B3';
                      break;
                 case "13":
                     bgImg = 'img/frozen-201495_1920.jpg';
+                    bgColor = '#EEEEF1';
                     break;
                 case "15":
-                    bgImg = 'landscape-trees-winter-8781.jpg';
+                    bgImg = 'img/landscape-trees-winter-8781.jpg';
+                    bgColor = '#F1EEE6';
                     break;
 
 
             }
 
-            return 'url(' + bgImg +')';
+            return ['url(' + bgImg +')', bgColor];
         }
 
 
