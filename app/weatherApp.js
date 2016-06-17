@@ -50,7 +50,7 @@
 
 
                 }, function(data, status, headers, config){
-                    alert("retrieving data was not successful");
+                    alert("Retrieving data was not successful");
             });
 
         };
@@ -61,6 +61,9 @@
             $http.get('lib/countries.min.json')
                 .then(function(countriesData){
                     $scope.countriesList = countriesData.data.countries;
+                    /*call the ip location service*/
+                    $scope.getIpInfo();
+
 
                 }, function(countriesData){
                     alert("retrieving data was not successful");
@@ -99,7 +102,8 @@
                 datatype: 'json'
             })
             .then(function(Ipdata, status, headers, config){
-                if (Ipdata.data.country !== ''){
+                if (Ipdata.data.country !== '' &&  $scope.countriesList!== ''){
+                    console.log($scope.countriesList);
                     $scope.place.country = ($scope.getCountryName(Ipdata.data.country).name).replace(" ", "_");
 
                     if(Ipdata.data.region !== '')
@@ -225,7 +229,6 @@
 
 
         $scope.getCountryList();
-        $scope.getIpInfo();
 
 
 
