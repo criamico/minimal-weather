@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="weatherApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Weather App </title>
+
+
+   <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" > -->
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/weather-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="css/weather-icons-wind.min.css">
+
+
+  </head>
+  <body ng-controller="weatherController" ng-style= "{'background-color': getBg(weatherdata.forecast.tabular.time[0].symbol.number)[1]}">
+
+    <!-- Container -->
+    <main >
+        <section class="error-msg" ng-hide="knowLocation">
+            <p>Sorry, it was not possible to retrieve your location.</p>
+
+        </section> <!-- error-msg -->
+
+       <section class="img-container"  ng-show= "knowLocation" ng-style= "{'background-image': getBg(weatherdata.forecast.tabular.time[0].symbol.number)[0]}">
+
+           <div class="current">
+               <span id="place">{{place.display}}</span>
+               <span><button name="toggle" ng-click="toggleUnits()"> {{isCelsius && "°F" || "°C"}}   </button> </span>
+
+               <div class="main">
+                   <h1 class="main-icon"><i class="wi" ng-class="getWeatherIcon(weatherdata.forecast.tabular.time[0].symbol.number)"></i></h1>
+                   <h1 class="main-temp">{{isCelsius && weatherdata.forecast.tabular.time[0].temperature.value || weatherdata.forecast.tabular.time[0].temperature.farhenheit}} {{isCelsius && "°C" || "°F"}} </h1>
+                   <h1 class="main-press">{{weatherdata.forecast.tabular.time[0].pressure.value}} {{weatherdata.forecast.tabular.time[0].pressure.unit}}</h1>
+
+                   <h1 class="main-icon"> <i class="wi wi-wind" ng-class="getWindIcon(weatherdata.forecast.tabular.time[0].windDirection.code)"></i></h1>
+                   <h1>
+                    <span>{{weatherdata.forecast.tabular.time[0].windDirection.code}}</span>
+                    <span>{{weatherdata.forecast.tabular.time[0].windSpeed.mps}} m/s</span>
+                    </h1>
+                </div>
+            </div> <!-- current -->
+        </section>
+
+        <div class="container" ng-show= "knowLocation">
+            <div class="forecast">
+               <h3>Next 36 hours:</h3>
+
+                <ul>
+
+                    <li ng-repeat="period in overcast">
+                    <i id="li-icon" class="wi" ng-class="getWeatherIcon(period.symbol.number)"></i>
+                     <p class="row-2">
+                        <span>{{isCelsius && period.temperature.value || period.temperature.farhenheit }} {{isCelsius && "°C" || "°F"}} ~ </span>
+                        <span>{{period.pressure.value}} {{period.pressure.unit}}</span>
+                    </p>
+                    <p class="row-1"> {{filterDate(period.from).date}} {{filterDate(period.from).time}} </p>
+
+
+                    <p class="row-3">
+                        <i class="wi wi-wind" ng-class="getWindIcon(period.windDirection.code)"></i>
+                        <span>{{period.windDirection.code}}</span>
+                        <span>{{period.windSpeed.mps}} m/s</span>
+                    </p>
+                    </li>
+
+                </ul>
+            </div>
+
+       <!--  <a href="{{weatherdata.links.link[2]['_url']}}">See {{weatherdata.links.link[2]['_id']}} on yr.no</a> -->
+
+        </div><!-- container -->
+
+         <footer>
+           <p class="credits"><a href="{{ weatherdata.credit.link['url']}}">{{ weatherdata.credit.link["text"]}}</a> </p>
+           <p class="author">Created by <a href="https://github.com/criamico">criamico</a> - 2016</p>
+       </footer>
+    </main>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+
+ <!--    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-sanitize.js"></script> -->
+   <!--  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.js"></script> -->
+
+    <script src="app/weatherApp.js"></script>
+  </body>
+</html>
