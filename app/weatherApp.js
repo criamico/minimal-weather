@@ -123,6 +123,7 @@
 
                 }, function(Ipdata, status, headers, config){
                        console.log("Retrieving ip info was not successful");
+                       $scope.knowLocation = false;
             });
 
         };
