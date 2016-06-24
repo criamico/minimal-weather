@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Weather App </title>
+    <title>Minimal Weather App, service provided by yr.no </title>
 
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -51,14 +51,13 @@
                 <ul>
                     <li ng-repeat="period in YNoData.next36h">
                     <i id="li-icon" class="wi" ng-class="getWeatherIcon(period.symbol.number)"></i>
-                     <p class="row-2">
+                     <p class="temp">
                         <span>{{isCelsius && period.temperature.value || period.temperature.farhenheit }} {{isCelsius && "°C" || "°F"}} ~ </span>
                         <span>{{period.pressure.value}} {{period.pressure.unit}}</span>
                     </p>
-                    <p class="row-1"> {{period.from | date:'EEE d MMM HH:mm' }} </p>
+                    <p class="datetime"> {{period.from | date:'EEE d MMM HH:mm' }} </p>
 
-
-                    <p class="row-3">
+                    <p class="wind">
                         <i class="wi wi-wind" ng-class="getWindIcon(period.windDirection.code)"></i>
                         <span>{{period.windDirection.code}}</span>
                         <span>{{period.windSpeed.mps}} m/s</span>
@@ -68,7 +67,6 @@
                 </ul>
             </div>
 
-       <!--  <a href="{{weatherdata.links.link[2]['_url']}}">See {{weatherdata.links.link[2]['_id']}} on yr.no</a> -->
 
         </div><!-- container -->
 
@@ -79,9 +77,10 @@
     </main>
 
 
-
+    <!-- Add Angular JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
 
+    <!-- Add angular module, services and controller  -->
     <script src="app/weatherApp.js"></script>
     <script src="app/weather-service.js"></script>
     <script src="app/ipinfo-service.js"></script>

@@ -41,7 +41,7 @@
                     .then(function(Ipdata, status, headers, config){
 
                         if (Ipdata.data.country !== '' &&  $scope.countriesList!== ''){
-                            console.log($scope.countriesList);
+                            // console.log($scope.countriesList);
                             $scope.place.country = ($scope.getCountryName(Ipdata.data.country).name).replace(" ", "_");
 
                             if(Ipdata.data.region !== '')

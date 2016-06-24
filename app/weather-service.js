@@ -22,7 +22,7 @@
                     url: URL,
                 })
                 .then(function(XMLdata, status, headers, config){
-                    console.log(XMLdata);
+                    // console.log(XMLdata);
                     wdata.weatherdata = XMLdata.data.query.results.weatherdata;
                     wdata.weatherdata.forecast.tabular.time[0].temperature.farhenheit = tempC2F(wdata.weatherdata.forecast.tabular.time[0].temperature.value);
 
@@ -32,9 +32,7 @@
                        wdata.next36h[i-1].temperature.farhenheit = tempC2F(wdata.next36h[i-1].temperature.value);
                    }
 
-
-                    console.log(wdata.next36h);
-
+                    // console.log(wdata.next36h);
 
                     }, function(data, status, headers, config){
                         alert("Retrieving data was not successful");
