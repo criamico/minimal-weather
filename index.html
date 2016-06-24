@@ -58,7 +58,7 @@
                         <span>{{isCelsius && period.temperature.value || period.temperature.farhenheit }} {{isCelsius && "°C" || "°F"}} ~ </span>
                         <span>{{period.pressure.value}} {{period.pressure.unit}}</span>
                     </p>
-                    <p class="row-1"> {{filterDate(period.from).date}} {{filterDate(period.from).time}} </p>
+                    <p class="row-1"> {{period.from | date:'EEE d MMM HH:mm' }} </p>
 
 
                     <p class="row-3">
@@ -83,10 +83,7 @@
 
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-
- <!--    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-sanitize.js"></script> -->
-   <!--  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
 
     <script src="app/weatherApp.js"></script>
   </body>
