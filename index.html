@@ -7,8 +7,6 @@
 
     <title>Weather App </title>
 
-
-   <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" > -->
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/weather-icons.min.css">
@@ -16,43 +14,42 @@
 
 
   </head>
-  <body ng-controller="weatherController" ng-style= "{'background-color': getBg(weatherdata.forecast.tabular.time[0].symbol.number)[1]}">
+  <body ng-controller="weatherController" ng-style= "{'background-color': getBg(YNoData.weatherdata.forecast.tabular.time[0].symbol.number)[1]}">
 
     <!-- Container -->
     <main >
-        <section class="error-msg" ng-hide="knowLocation">
+        <section class="error-msg" ng-hide="place.knowLocation">
             <p>Sorry, it was not possible to retrieve your location; try to disable your adblocker.
             </p>
 
         </section> <!-- error-msg -->
 
-       <section class="img-container"  ng-show= "knowLocation" ng-style= "{'background-image': getBg(weatherdata.forecast.tabular.time[0].symbol.number)[0]}">
+       <section class="img-container"  ng-show= "place.knowLocation" ng-style= "{'background-image': getBg(YNoData.weatherdata.forecast.tabular.time[0].symbol.number)[0]}">
 
            <div class="current">
                <span id="place">{{place.display}}</span>
                <span><button name="toggle" ng-click="toggleUnits()"> {{isCelsius && "°F" || "°C"}}   </button> </span>
 
                <div class="main">
-                   <h1 class="main-icon"><i class="wi" ng-class="getWeatherIcon(weatherdata.forecast.tabular.time[0].symbol.number)"></i></h1>
-                   <h1 class="main-temp">{{isCelsius && weatherdata.forecast.tabular.time[0].temperature.value || weatherdata.forecast.tabular.time[0].temperature.farhenheit}} {{isCelsius && "°C" || "°F"}} </h1>
-                   <h1 class="main-press">{{weatherdata.forecast.tabular.time[0].pressure.value}} {{weatherdata.forecast.tabular.time[0].pressure.unit}}</h1>
+                   <h1 class="main-icon"><i class="wi" ng-class="getWeatherIcon(YNoData.weatherdata.forecast.tabular.time[0].symbol.number)"></i></h1>
+                   <h1 class="main-temp">{{isCelsius && weatherdata.forecast.tabular.time[0].temperature.value || YNoData.weatherdata.forecast.tabular.time[0].temperature.farhenheit}} {{isCelsius && "°C" || "°F"}} </h1>
+                   <h1 class="main-press">{{YNoData.weatherdata.forecast.tabular.time[0].pressure.value}} {{YNoData.weatherdata.forecast.tabular.time[0].pressure.unit}}</h1>
 
-                   <h1 class="main-icon"> <i class="wi wi-wind" ng-class="getWindIcon(weatherdata.forecast.tabular.time[0].windDirection.code)"></i></h1>
+                   <h1 class="main-icon"> <i class="wi wi-wind" ng-class="getWindIcon(YNoData.weatherdata.forecast.tabular.time[0].windDirection.code)"></i></h1>
                    <h1>
-                    <span>{{weatherdata.forecast.tabular.time[0].windDirection.code}}</span>
-                    <span>{{weatherdata.forecast.tabular.time[0].windSpeed.mps}} m/s</span>
+                    <span>{{YNoData.weatherdata.forecast.tabular.time[0].windDirection.code}}</span>
+                    <span>{{YNoData.weatherdata.forecast.tabular.time[0].windSpeed.mps}} m/s</span>
                     </h1>
                 </div>
             </div> <!-- current -->
         </section>
 
-        <div class="container" ng-show= "knowLocation">
+        <div class="container" ng-show= "place.knowLocation">
             <div class="forecast">
                <h3>Next 36 hours:</h3>
 
                 <ul>
-
-                    <li ng-repeat="period in overcast">
+                    <li ng-repeat="period in YNoData.next36h">
                     <i id="li-icon" class="wi" ng-class="getWeatherIcon(period.symbol.number)"></i>
                      <p class="row-2">
                         <span>{{isCelsius && period.temperature.value || period.temperature.farhenheit }} {{isCelsius && "°C" || "°F"}} ~ </span>
@@ -76,7 +73,7 @@
         </div><!-- container -->
 
          <footer>
-           <p class="credits"><a href="{{ weatherdata.credit.link['url']}}">{{ weatherdata.credit.link["text"]}}</a> </p>
+           <p class="credits"><a href="{{ YNoData.weatherdata.credit.link['url']}}">{{ YNoData.weatherdata.credit.link["text"]}}</a> </p>
            <p class="author">Created by <a href="https://github.com/criamico">criamico</a> - 2016</p>
        </footer>
     </main>
@@ -86,5 +83,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
 
     <script src="app/weatherApp.js"></script>
+    <script src="app/weather-service.js"></script>
+    <script src="app/ipinfo-service.js"></script>
+    <script src="app/weather-controller.js"></script>
   </body>
 </html>
