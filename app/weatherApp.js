@@ -80,20 +80,6 @@
         };
 
 
-        // Helper function; needed to split date/time obtained by weather service
-        $scope.filterDate = function(str){
-            // format: 2016-06-18T18:00:00
-            var forecastDates = {};
-
-            var arr = str.split("T");
-            var date = new Date(arr[0]);
-
-            forecastDates.time = arr[1].slice(0,5);
-            forecastDates.date = date.toDateString().slice(0,10);
-
-            return forecastDates;
-        };
-
         // Get user location using ipinfo service
         $scope.getIpInfo = function(){
             $http({
