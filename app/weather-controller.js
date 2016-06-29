@@ -58,8 +58,6 @@
                         } else
                             $scope.newSearch(Ipdata.data.loc, 'r', newQuery);
 
-
-
                     }, function(Ipdata, status, headers, config){
                        console.log("Retrieving ip info was not successful");
                        $scope.place.knowLocation = false;
@@ -92,26 +90,7 @@
                 console.log(placedata);
                     if (placedata.data.status !== "ZERO_RESULTS" ) {
                         results = placedata.data.results[0];
-
-                        // retrieve city, region, country from the data. Other fields are not needed
-                        for (var i=0; i < results.address_components.length; i++){
-                            if (newQuery.city === '' && results.address_components[i].types[0] === 'locality')
-                                newQuery.city = results.address_components[i].long_name;
-
-                            if (newQuery.region === '' && results.address_components[i].types[0] === 'administrative_area_level_1')
-                                newQuery.region = results.address_components[i].long_name;
-
-                            if (newQuery.country === '' && results.address_components[i].types[0] === 'country')
-                                newQuery.country = results.address_components[i].long_name;
-                        }
-
-
-                        // newQuery.display = results.formatted_address;
-
-                        newQuery.knowLocation = true;
-                        newQuery.display = newQuery.country + ' > ' + newQuery.region + ' > ' + newQuery.city[0].toUpperCase() + newQuery.city.slice(1);
-
-                        console.log(newQuery);
+                        newQuery = $scope.formatGeoResults(results, newQuery);
 
                         if (newQuery.city !== '' && newQuery.region !== '' && newQuery.country !== '')
                         // call the weather service
@@ -121,7 +100,6 @@
                     }
 
 
-
                 }, function(placedata, status, headers, config){
                         console.log("Retrieving place data was not successful", status);
 
@@ -129,7 +107,29 @@
 
         };
 
+        //retrieve the data provided by geocoding in the correct format to be passed to the weather service
+        $scope.formatGeoResults = function(geoResults, place){
 
+            // retrieve city, region, country from the data. Other fields are not needed
+                for (var i=0; i < geoResults.address_components.length; i++){
+                    if (geoResults.address_components[i].types[0] === 'locality')
+                        place.city = geoResults.address_components[i].long_name;
+
+                    if (place.region === '' && geoResults.address_components[i].types[0] === 'administrative_area_level_1')
+                        place.region = geoResults.address_components[i].long_name;
+
+                    if (place.country === '' && geoResults.address_components[i].types[0] === 'country')
+                        place.country = geoResults.address_components[i].long_name;
+                }
+
+                place.knowLocation = true;
+                place.display = place.country + ' > ' + place.region + ' > ' + place.city;
+
+                console.log(place);
+            return place;
+        };
+
+        // call the weather service
         $scope.getWeather = function(newPlace){
               //flush the values and retrieve new values
                     $scope.place = newPlace;
@@ -171,7 +171,7 @@
             switch(strNo){
                 case "1":
                 case "2":
-                    bgImg =  '/img/air-2716_1280.jpg';
+                    bgImg =  'img/air-2716_1280.jpg';
                     bgColor = '#C8E0FA'
                     break;
                 case "3":
@@ -201,8 +201,6 @@
                     bgImg = 'img/landscape-trees-winter-8781.jpg';
                     bgColor = '#F1EEE6';
                     break;
-
-
             }
 
             return ['url(' + bgImg +')', bgColor];
@@ -239,8 +237,6 @@
         }
 
 
-
-        // $scope.getCountryList();
         $scope.Init();
 
 
