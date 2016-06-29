@@ -10,7 +10,6 @@
 
 
         return{
-
             getWeatherData: function(place, wdata){
                 var site = 'http://www.yr.no/place/' + escape(place.country) + '/' + escape(place.region) +'/' + escape(place.city) + '/forecast.xml';
                 var URL = 'https://query.yahooapis.com/v1/public/yql?q='+ encodeURIComponent('select * from xml where url="' + site + '"') + '&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys';

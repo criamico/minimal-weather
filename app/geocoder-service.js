@@ -3,9 +3,7 @@
     angular.module('weatherApp') // retrieve xml weather data and convert it to json using yahoo developer console
     .factory('geocoderService', ['$http', '$q', function($http, $q){
 
-
         return{
-
             getPlaceInfo: function(val, par){
                 var URL = '',
                     deferred = $q.defer();

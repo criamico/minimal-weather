@@ -12,3 +12,5 @@ Credits:
 - User location provided by https://ipinfo.io/
 - Weather icons: https://erikflowers.github.io/weather-icons/
 - Images: https://pixabay.com
+
+
