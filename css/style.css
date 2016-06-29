@@ -10,8 +10,13 @@ body {
 
 .img-container {
   height: 460px;
-  background-size: cover;
   margin: -8px;
+}
+
+.img-wrapper {
+  height: 100%;
+  background: #A9B7BE no-repeat fixed;
+  background-size: cover;
 }
 
 h1 {
@@ -38,6 +43,28 @@ a {
   background: rgba(37, 40, 40, 0.7);
   color: white;
   margin: 20px auto;
+}
+
+nav {
+  text-align: left;
+  height: 2.5em;
+  padding: 20px 0 14px 20px;
+  margin: -10px;
+  background-color: #F79637;
+}
+nav span {
+  color: white;
+}
+nav input {
+  outline: none;
+  border: none;
+  padding: 4px;
+  border-radius: 15px;
+  /* border: 3px solid #E16F00; */
+}
+
+form {
+  display: inline;
 }
 
 .main-icon {
@@ -89,7 +116,7 @@ ul li p {
   font-size: 1.1em;
 }
 ul li .datetime {
-  color: #FF5722;
+  color: #FF7E00;
 }
 ul li .wind i {
   font-size: 1.6em;

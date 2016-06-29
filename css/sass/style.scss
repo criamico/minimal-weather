@@ -1,13 +1,14 @@
 $bg-current-color: rgba(37, 40, 40, 0.7);
 $bg-color-start: #A9B7BE;
+$bg-nav-color: #F79637;
+$bg-li-color: rgba(255, 255, 255, 0.76);
+$bg-footer-color: rgba(255, 126, 0, 0.56);
 $h3-color: #B22E05;
 $btn-color: #009688;
 $main-text-color: white;
-$date-text-color: #FF5722;
-$forecast-text-color: #454040;
-$bg-li-color: rgba(255, 255, 255, 0.76);
-$bg-footer-color: rgba(255, 126, 0, 0.56);
+$date-text-color: #FF7E00;
 $link-text-color: #054273;
+$forecast-text-color: #454040;
 $mobile-breakpoint-small: 768px;
 $mobile-breakpoint-big: 1200px;
 
@@ -23,8 +24,14 @@ body{
 }
 .img-container{
     height: 460px;
-    background-size: cover;
+    // background-size: cover;
     margin: -8px;
+}
+
+.img-wrapper{
+    height: 100%;
+    background: $bg-color-start no-repeat fixed;
+    background-size: cover;
 }
 
 h1{
@@ -52,6 +59,30 @@ a{
     color: $main-text-color;
     margin: 20px auto;
 }
+
+nav{
+    text-align: left;
+    height: 2.5em;
+    padding: 20px 0 14px 20px;
+    margin: -10px;
+    background-color: $bg-nav-color;
+    span{
+        color: $main-text-color;
+    }
+    input{
+        outline: none;
+        border: none;
+        padding: 4px;
+        border-radius: 15px;
+        /* border: 3px solid #E16F00; */
+    }
+}
+
+form{
+    display: inline;
+}
+
+
 
 .main-icon{
     font-size: 3em;

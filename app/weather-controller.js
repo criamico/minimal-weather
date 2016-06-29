@@ -1,8 +1,8 @@
 (function(){
     'use strict';
     angular.module('weatherApp')
-    .controller('weatherController', ['$scope','$http' ,'ipinfoService', 'weatherService', function($scope, $http, ipinfoService, weatherService){
-
+    .controller('weatherController', ['$scope','$http' ,'ipinfoService', 'geocoderService', 'weatherService',
+        function($scope, $http, ipinfoService, geocoderService, weatherService){
 
 
         // initialize $scope.place
@@ -14,14 +14,19 @@
             knowLocation: true
         };
 
+        // input text
+        $scope.query = '';
+
+
         // initialize object to hold the data sent from Y.no servers
         $scope.YNoData = {
             weatherdata : {},
-            next36h : []
+            next36h : [],
+            dataRetrieved: false
         }
 
-        $scope.countriesList = [];
         $scope.isCelsius = true;
+
 
         // true if current units are celsius, false if farhenheit
         $scope.toggleUnits = function(){
@@ -29,62 +34,112 @@
         };
 
 
-
-        // Retrieve list of country codes
-        $scope.getCountryList = function(code){
-            $http.get('lib/countries.min.json')
-                .then(function(countriesData){
-                    $scope.countriesList = countriesData.data.countries;
-
-                    /*call the ip location service*/
-                    ipinfoService.getIpInfo()
+        // function triggered at page loading
+        $scope.Init = function(){
+             ipinfoService.getIpInfo()
                     .then(function(Ipdata, status, headers, config){
+                       var newQuery = {
+                            country: '',
+                            region: '',
+                            city: '',
+                            display: '',
+                            knowLocation: false
+                        };
 
-                        if (Ipdata.data.country !== '' &&  $scope.countriesList!== ''){
-                            // console.log($scope.countriesList);
-                            $scope.place.country = ($scope.getCountryName(Ipdata.data.country).name).replace(" ", "_");
+                        // console.log(Ipdata);
 
-                            if(Ipdata.data.region !== '')
-                                $scope.place.region = (Ipdata.data.region).replace(" ", "_");
 
-                            if (Ipdata.data.city !== '')
-                                $scope.place.city = (Ipdata.data.city).replace(" ", "_");
-                            // else
-                            //     $scope.place.city = ($scope.getCountryName(Ipdata.data.country).capital).replace(" ", "_");
-                        }
+                        if (Ipdata.data.country !== '' && Ipdata.data.region !== ''){
+                            newQuery.city = (Ipdata.data.city).replace(" ", "_");
+                            newQuery.region = (Ipdata.data.region).replace(" ", "_");
+                            var query = encodeURI(newQuery.city + newQuery.region);
+                            $scope.newSearch(query, 'd', newQuery);
+                            // console.log(newQuery);
+                        } else
+                            $scope.newSearch(Ipdata.data.loc, 'r', newQuery);
 
-                        $scope.place.display = $scope.place.country + ' > ' + $scope.place.region + ' > ' + $scope.place.city;
 
-                        if($scope.place.country !== '' && $scope.place.region !== '' && $scope.place.city !== ''){
-                        // get the weather data
-                            $scope.place.knowLocation = true;
-
-                            // call the weatherService
-                            weatherService.getWeatherData($scope.place, $scope.YNoData);
-                        }
-                        else
-                            $scope.place.knowLocation = false;
 
                     }, function(Ipdata, status, headers, config){
                        console.log("Retrieving ip info was not successful");
                        $scope.place.knowLocation = false;
                 });
 
-                }, function(countriesData){
-                    alert("retrieving data was not successful");
+        }
+
+        // call the newSearch from the search bar
+        $scope.searchBar = function(query){
+             // initialize a place object to hold the new search data
+                var newPlace = {
+                    country: '',
+                    region: '',
+                    city: query,
+                    display: '',
+                    knowLocation: false
+                };
+            $scope.newSearch(query, 'd', newPlace);
+        }
+
+
+
+        // Make a new search
+        $scope.newSearch = function(val, par, newQuery){
+            var results = [];
+
+            geocoderService.getPlaceInfo(val, par)
+            .then(function(placedata, status, headers, config){
+
+                console.log(placedata);
+                    if (placedata.data.status !== "ZERO_RESULTS" ) {
+                        results = placedata.data.results[0];
+
+                        // retrieve city, region, country from the data. Other fields are not needed
+                        for (var i=0; i < results.address_components.length; i++){
+                            if (newQuery.city === '' && results.address_components[i].types[0] === 'locality')
+                                newQuery.city = results.address_components[i].long_name;
+
+                            if (newQuery.region === '' && results.address_components[i].types[0] === 'administrative_area_level_1')
+                                newQuery.region = results.address_components[i].long_name;
+
+                            if (newQuery.country === '' && results.address_components[i].types[0] === 'country')
+                                newQuery.country = results.address_components[i].long_name;
+                        }
+
+
+                        // newQuery.display = results.formatted_address;
+
+                        newQuery.knowLocation = true;
+                        newQuery.display = newQuery.country + ' > ' + newQuery.region + ' > ' + newQuery.city[0].toUpperCase() + newQuery.city.slice(1);
+
+                        console.log(newQuery);
+
+                        if (newQuery.city !== '' && newQuery.region !== '' && newQuery.country !== '')
+                        // call the weather service
+                            $scope.getWeather(newQuery);
+                        else
+                            $scope.place.knowLocation = false;
+                    }
+
+
+
+                }, function(placedata, status, headers, config){
+                        console.log("Retrieving place data was not successful", status);
+
             });
-        };
 
-        //Find name of country inside list
-        $scope.getCountryName = function(code){
-            for (var prop in $scope.countriesList) {
-                if ($scope.countriesList.hasOwnProperty(code)) {
-                    return $scope.countriesList[code];
-                }
-            }
         };
 
 
+        $scope.getWeather = function(newPlace){
+              //flush the values and retrieve new values
+                    $scope.place = newPlace;
+                    $scope.YNoData.weatherdata = {};
+                    $scope.YNoData.next36h = [];
+
+                    // call the weather service
+                    weatherService.getWeatherData($scope.place, $scope.YNoData);
+                    newPlace = {};
+        }
 
         // get weather icon
         $scope.getWeatherIcon = function(strNo){
@@ -120,6 +175,9 @@
                     bgColor = '#C8E0FA'
                     break;
                 case "3":
+                    bgImg =  "img/sky-414198_1280.jpg";
+                    bgColor = '#BFCFDF';
+                     break;
                 case "4":
                     bgImg = 'img/Cloudy_sky.jpg';
                     bgColor = '#DCDDDE';
@@ -182,7 +240,8 @@
 
 
 
-        $scope.getCountryList();
+        // $scope.getCountryList();
+        $scope.Init();
 
 
 

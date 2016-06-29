@@ -17,34 +17,44 @@
   <body ng-controller="weatherController" ng-style= "{'background-color': getBg(YNoData.weatherdata.forecast.tabular.time[0].symbol.number)[1]}">
 
     <!-- Container -->
-    <main >
-        <section class="error-msg" ng-hide="place.knowLocation">
-            <p>Sorry, it was not possible to retrieve your location; try to disable your adblocker.
+    <main ng-cloak>
+        <nav>
+            <span>Search:</span>
+            <form ng-submit="searchBar(query)">
+                <input type="text" name="input-place" ng-model="query" placeholder="London or Rome..." required >
+            </form>
+        </nav>
+
+        <section class="error-msg" ng-show="!place.knowLocation || !YNoData.dataRetrieved" >
+            <p ng-hide="place.knowLocation">Sorry, it was not possible to retrieve your location; try to disable your adblocker.
             </p>
+            <p ng-show="!YNoData.dataRetrieved" >Sorry, it was not possible to retrieve the weather data for the selected location</p>
 
         </section> <!-- error-msg -->
 
-       <section class="img-container"  ng-show= "place.knowLocation" ng-style= "{'background-image': getBg(YNoData.weatherdata.forecast.tabular.time[0].symbol.number)[0]}">
+       <section class="img-container"  ng-hide= "!place.knowLocation || !YNoData.dataRetrieved" >
+            <div class="img-wrapper" ng-style= "{'background-image': getBg(YNoData.weatherdata.forecast.tabular.time[0].symbol.number)[0]}">
+               <div class="current">
+                   <span id="place">{{place.display}}</span>
+                   <span><button name="toggle" ng-click="toggleUnits()"> {{isCelsius && "°F" || "°C"}}   </button> </span>
 
-           <div class="current">
-               <span id="place">{{place.display}}</span>
-               <span><button name="toggle" ng-click="toggleUnits()"> {{isCelsius && "°F" || "°C"}}   </button> </span>
+                   <div class="main">
+                       <h1 class="main-icon"><i class="wi" ng-class="getWeatherIcon(YNoData.weatherdata.forecast.tabular.time[0].symbol.number)"></i></h1>
 
-               <div class="main">
-                   <h1 class="main-icon"><i class="wi" ng-class="getWeatherIcon(YNoData.weatherdata.forecast.tabular.time[0].symbol.number)"></i></h1>
-                   <h1 class="main-temp">{{isCelsius && weatherdata.forecast.tabular.time[0].temperature.value || YNoData.weatherdata.forecast.tabular.time[0].temperature.farhenheit}} {{isCelsius && "°C" || "°F"}} </h1>
-                   <h1 class="main-press">{{YNoData.weatherdata.forecast.tabular.time[0].pressure.value}} {{YNoData.weatherdata.forecast.tabular.time[0].pressure.unit}}</h1>
+                       <h1 class="main-temp">{{isCelsius && YNoData.weatherdata.forecast.tabular.time[0].temperature.value || YNoData.weatherdata.forecast.tabular.time[0].temperature.farhenheit}} {{isCelsius && "°C" || "°F"}} </h1>
+                       <h1 class="main-press">{{YNoData.weatherdata.forecast.tabular.time[0].pressure.value}} {{YNoData.weatherdata.forecast.tabular.time[0].pressure.unit}}</h1>
 
-                   <h1 class="main-icon"> <i class="wi wi-wind" ng-class="getWindIcon(YNoData.weatherdata.forecast.tabular.time[0].windDirection.code)"></i></h1>
-                   <h1>
-                    <span>{{YNoData.weatherdata.forecast.tabular.time[0].windDirection.code}}</span>
-                    <span>{{YNoData.weatherdata.forecast.tabular.time[0].windSpeed.mps}} m/s</span>
-                    </h1>
-                </div>
-            </div> <!-- current -->
+                       <h1 class="main-icon"> <i class="wi wi-wind" ng-class="getWindIcon(YNoData.weatherdata.forecast.tabular.time[0].windDirection.code)"></i></h1>
+                       <h1>
+                        <span>{{YNoData.weatherdata.forecast.tabular.time[0].windDirection.code}}</span>
+                        <span>{{YNoData.weatherdata.forecast.tabular.time[0].windSpeed.mps}} m/s</span>
+                        </h1>
+                    </div>
+                </div> <!-- current -->
+            </div> <!-- img-wrapper -->
         </section>
 
-        <div class="container" ng-show= "place.knowLocation">
+        <div class="container" ng-hide= "!place.knowLocation || !YNoData.dataRetrieved">
             <div class="forecast">
                <h3>Next 36 hours:</h3>
 
@@ -84,6 +94,7 @@
     <script src="app/weatherApp.js"></script>
     <script src="app/weather-service.js"></script>
     <script src="app/ipinfo-service.js"></script>
+    <script src="app/geocoder-service.js"></script>
     <script src="app/weather-controller.js"></script>
   </body>
 </html>
