@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Minimal Weather App, service provided by yr.no </title>
+    <title>Minimal Weather App - service provided by yr.no </title>
 
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -25,14 +25,8 @@
             </form>
         </nav>
 
-        <section class="error-msg" ng-show="!place.knowLocation || !YNoData.dataRetrieved" >
-            <p ng-hide="place.knowLocation">Sorry, it was not possible to retrieve your location; try to disable your adblocker.
-            </p>
-            <p ng-show="!YNoData.dataRetrieved" >Sorry, it was not possible to retrieve the weather data for the selected location</p>
 
-        </section> <!-- error-msg -->
-
-       <section class="img-container"  ng-hide= "!place.knowLocation || !YNoData.dataRetrieved" >
+       <section class="img-container"  ng-hide= "!place.knowLocation || !YNoData.dataRetrieved" ng-cloak>
             <div class="img-wrapper" ng-style= "{'background-image': getBg(YNoData.weatherdata.forecast.tabular.time[0].symbol.number)[0]}">
                <div class="current">
                    <span id="place">{{place.display}}</span>
@@ -53,6 +47,13 @@
                 </div> <!-- current -->
             </div> <!-- img-wrapper -->
         </section>
+
+         <section class="error-msg" ng-show="!place.knowLocation || !YNoData.dataRetrieved" ng-cloak>
+            <p ng-hide="place.knowLocation">Sorry, it was not possible to retrieve your location; try to disable your adblocker.
+            </p>
+            <p ng-show="!YNoData.dataRetrieved" >Sorry, it was not possible to retrieve the weather data for the selected location</p>
+        </section> <!-- error-msg -->
+
 
         <div class="container" ng-hide= "!place.knowLocation || !YNoData.dataRetrieved">
             <div class="forecast">
