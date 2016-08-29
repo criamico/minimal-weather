@@ -44,7 +44,8 @@
                             city: '',
                             display: '',
                             knowLocation: false
-                        };
+                        },
+                        query;
 
                         // console.log(Ipdata);
 
@@ -52,7 +53,7 @@
                         if (Ipdata.data.country !== '' && Ipdata.data.region !== ''){
                             newQuery.city = (Ipdata.data.city).replace(" ", "_");
                             newQuery.region = (Ipdata.data.region).replace(" ", "_");
-                            var query = encodeURI(newQuery.city + newQuery.region);
+                            query = encodeURI(newQuery.city + newQuery.region);
                             $scope.newSearch(query, 'd', newQuery);
                             // console.log(newQuery);
                         } else
@@ -83,11 +84,12 @@
         // Make a new search
         $scope.newSearch = function(val, par, newQuery){
             var results = [];
+             $scope.place.knowLocation = false;
 
             geocoderService.getPlaceInfo(val, par)
             .then(function(placedata, status, headers, config){
 
-                console.log(placedata);
+             /*   console.log(placedata);*/
                     if (placedata.data.status !== "ZERO_RESULTS" ) {
                         results = placedata.data.results[0];
                         newQuery = $scope.formatGeoResults(results, newQuery);
@@ -102,7 +104,7 @@
 
                 }, function(placedata, status, headers, config){
                         console.log("Retrieving place data was not successful", status);
-
+                        $scope.place.knowLocation = false;
             });
 
         };
@@ -125,7 +127,7 @@
                 place.knowLocation = true;
                 place.display = place.country + ' > ' + place.region + ' > ' + place.city;
 
-                console.log(place);
+               /* console.log(place);*/
             return place;
         };
 

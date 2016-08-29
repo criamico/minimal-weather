@@ -14,6 +14,7 @@
                 var site = 'http://www.yr.no/place/' + escape(place.country) + '/' + escape(place.region) +'/' + escape(place.city) + '/forecast.xml';
                 var URL = 'https://query.yahooapis.com/v1/public/yql?q='+ encodeURIComponent('select * from xml where url="' + site + '"') + '&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys';
                 // console.log(URL);
+                wdata.dataRetrieved = false;
 
                 $http({
                     method: 'GET',
@@ -37,9 +38,10 @@
                     else wdata.dataRetrieved = false;
 
 
-
                     }, function(data, status, headers, config){
-                        alert("Retrieving data was not successful");
+                        wdata.dataRetrieved = false;
+                        alert("Retrieving weather data was not successful");
+
                 });
                 return wdata;
             }
