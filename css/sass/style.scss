@@ -13,7 +13,6 @@ $mobile-breakpoint-small: 768px;
 $mobile-breakpoint-big: 1200px;
 
 
-
 body{
     background-color: $bg-color-start;
     font-family: 'Work Sans', sans-serif;
@@ -32,6 +31,7 @@ body{
     height: 100%;
     background: $bg-color-start no-repeat fixed;
     background-size: cover;
+
 }
 
 h1{
@@ -58,6 +58,7 @@ a{
     background: $bg-current-color;
     color: $main-text-color;
     margin: 20px auto;
+    z-index: 10;
 }
 
 nav{
@@ -81,7 +82,6 @@ nav{
 form{
     display: inline;
 }
-
 
 
 .main-icon{
@@ -161,7 +161,15 @@ footer{
     margin-right: 20px;
 }
 
-
+.spinner{
+    i{
+        padding: 10%;
+        font-size: 8em;
+    }
+    p{
+        font-size: 2em;
+    }
+}
 
 /* Media queries */
 

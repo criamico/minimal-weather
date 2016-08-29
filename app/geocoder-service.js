@@ -17,8 +17,8 @@
                 // in this case val is a lat-lon pair
                 else if (par === 'r')
                     URL = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + val;
-
-                console.log(URL);
+/*
+                console.log(URL);*/
 
 
                 $http({

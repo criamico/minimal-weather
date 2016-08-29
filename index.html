@@ -4,13 +4,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta author='Cristina Amico' type='text'>
 
     <title>Minimal Weather App - service provided by yr.no </title>
 
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/weather-icons.min.css">
+    <!-- Font-awesome -->
+    <link rel="stylesheet" href="./font-awesome-4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/weather-icons-wind.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.min.css">
 
 
   </head>
@@ -25,8 +28,12 @@
             </form>
         </nav>
 
+        <section class="spinner text-center" ng-hide="YNoData.dataRetrieved || place.knowLocation">
+            <p> Retrieving data...</p>
+            <i class="fa fa-spinner fa-spin"></i>
+        </section>
 
-       <section class="img-container"  ng-hide= "!place.knowLocation || !YNoData.dataRetrieved" ng-cloak>
+       <section class="img-container" ng-show="place.knowLocation && YNoData.dataRetrieved"  ng-cloak>
             <div class="img-wrapper" ng-style= "{'background-image': getBg(YNoData.weatherdata.forecast.tabular.time[0].symbol.number)[0]}">
                <div class="current">
                    <span id="place">{{place.display}}</span>
@@ -48,10 +55,10 @@
             </div> <!-- img-wrapper -->
         </section>
 
-         <section class="error-msg" ng-show="!place.knowLocation || !YNoData.dataRetrieved" ng-cloak>
+         <section class="error-msg" ng-show="!place.knowLocation" ng-cloak>
             <p ng-hide="place.knowLocation">Sorry, it was not possible to retrieve your location; try to disable your adblocker.
             </p>
-            <p ng-show="!YNoData.dataRetrieved" >Sorry, it was not possible to retrieve the weather data for the selected location</p>
+            <!-- <p ng-show="!YNoData.dataRetrieved" >Sorry, it was not possible to retrieve the weather data for the selected location</p> -->
         </section> <!-- error-msg -->
 
 
@@ -83,7 +90,7 @@
 
          <footer>
            <p class="credits"><a href="{{ YNoData.weatherdata.credit.link['url']}}">{{ YNoData.weatherdata.credit.link["text"]}}</a> </p>
-           <p class="author">Created by <a href="https://github.com/criamico">criamico</a> - 2016</p>
+           <p class="author">Created by <a href="https://criamico.github.io">criamico</a> - 2016</p>
        </footer>
     </main>
 
